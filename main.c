@@ -2,10 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define LENGTH 10
-#define HEIGHT 10
+// TODO: make it dinamic !
+#define LENGTH 600 // 10 - 600
+#define HEIGHT 400 // 10 - 600
+#define RAYON 100
 #define OPACITY 255
 #define IMG_FILE "image.ppm"
+#define ZERO 0
 
 // Define all Structures
 typedef struct 
@@ -48,7 +51,7 @@ int main() {
     pixmap.height = HEIGHT;
     pixmap.pixels = pixels;
 
-    int res = createImage(pixmap, 0);
+    int res = createImage(pixmap, 1);
     if(res == 1) printf("Le fichier est crée ! Vas tchéquer ça gros !\n");
     else printf("Le fichier n'est pas crée... C'est toi le problème, pas le code :(\n");
 
@@ -87,9 +90,37 @@ int createSquare(Pixmap pixmap) {
         printf("\n");
     }
 
+
+
     fclose(f);
 }
 
 int createCircle(Pixmap pixmap) {
+    int cx = HEIGHT/2;
+    int cy = LENGTH/2;
+
+    int radius = RAYON * RAYON;
+
+    FILE* f = fopen(IMG_FILE, "w");
+    if(!f) {
+        printf("Le fichier est non ouvrable/modifiable !\n");
+        return 0;
+    }
+
+    fprintf(f, "%s\n%d %d\n%d\n", pixmap.signature, pixmap.length, pixmap.height, OPACITY);
+    for(int j = 0; j < HEIGHT; j++) {
+        for(int i = 0; i < LENGTH; i++) {
+            int dx =  j - cx;
+            int dy =  i - cy;
+            if((dx*dx) + (dy*dy) <= radius) {
+                fprintf(f, "%d %d %d ", pixmap.pixels.r, pixmap.pixels.g, pixmap.pixels.b);
+            } else {
+                fprintf(f, "%d %d %d ", ZERO+50, ZERO+50, ZERO+50);
+            }
+        }
+        fprintf(f, "\n");
+    }
     
+
+    fclose(f);
 }
