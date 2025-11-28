@@ -108,14 +108,14 @@ int createCircle(Pixmap pixmap) {
     }
 
     fprintf(f, "%s\n%d %d\n%d\n", pixmap.signature, pixmap.length, pixmap.height, OPACITY);
-    for(int j = 0; j < HEIGHT; j++) {
-        for(int i = 0; i < LENGTH; i++) {
-            int dx =  j - cx;
-            int dy =  i - cy;
+    for(int x = 0; x < HEIGHT; x++) {
+        for(int y = 0; y < LENGTH; y++) {
+            int dx =  x - cx;
+            int dy =  y - cy;
             if((dx*dx) + (dy*dy) <= radius) {
                 fprintf(f, "%d %d %d ", pixmap.pixels.r, pixmap.pixels.g, pixmap.pixels.b);
             } else {
-                fprintf(f, "%d %d %d ", ZERO+50, ZERO+50, ZERO+50);
+                fprintf(f, "%d %d %d ", ZERO, ZERO, ZERO);
             }
         }
         fprintf(f, "\n");
