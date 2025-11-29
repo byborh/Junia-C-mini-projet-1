@@ -1,14 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <complexe.h>
 
 // TODO: make it dinamic !
-#define LENGTH 600 // 10 - 600
-#define HEIGHT 400 // 10 - 600
+#define LENGTH 900 // 10 - 600 - 900
+#define HEIGHT 400 // 10 - 600 - 600
 #define RAYON 100
 #define OPACITY 255
 #define IMG_FILE "image.ppm"
 #define ZERO 0
+#define MANDELBROT = 1
 
 // Define all Structures
 typedef struct 
@@ -31,6 +33,7 @@ typedef struct
 int createImage(Pixmap pixmap, int generation);
 int createSquare(Pixmap pixmap);
 int createCircle(Pixmap pixmap);
+int createMandelbrot(Pixmap pixmap);
 // TODO à créer !
 void tryCatch(){};
 void verifyCreationOfImage(){};
@@ -40,9 +43,9 @@ int main() {
     printf("Ce fichier est lancé correctement !\n");
 
     Pixel pixels;
-    pixels.r = 112;
+    pixels.r = 0;
     pixels.g = 123;
-    pixels.b = 52;
+    pixels.b = 255;
 
     Pixmap pixmap;
     // pixmap.signature = "P6";
@@ -69,12 +72,9 @@ int main() {
 */
 int createImage(Pixmap pixmap, int generation) {
     
-    if(generation == 0) {
-        createSquare(pixmap);
-    } else if (generation == 1)
-    {
-        createCircle(pixmap);
-    }
+    if(generation == 0) createSquare(pixmap);
+    else if (generation == 1) createCircle(pixmap);
+    else if(generation == 3) createMandelbrot(pixmap);
     
     printf("Allez vérifier si j'ai pu crée le fichier ou pas, normalement, si ! sinon, c TOI le problème BHAHAHAHAHAH\n");
 
@@ -132,4 +132,38 @@ int createCircle(Pixmap pixmap) {
     
 
     fclose(f);
+}
+
+int createMandelbrot(Pixmap pixmap) {
+    FILE* f = fopen(IMG_FILE, "w");
+    if(!f) {
+        printf("Le fichier est non ouvrable/modifiable !\n");
+        return 0;
+    }
+
+    fprintf(f, "%s\n%d %d\n%d\n", pixmap.signature, pixmap.length, pixmap.height, OPACITY);
+    for(int j = 0; j < HEIGHT; j++) {
+        for(int i = 0; i < LENGTH; i++) {
+            fprintf(f, "%d %d %d ", pixmap.pixels.r, pixmap.pixels.g, pixmap.pixels.b);
+        }
+        fprintf(f, "\n");
+    }
+
+    fclose(f);
+}
+
+int convergence(double x, double y) {
+    double complex z = x + y * I;
+    double complex u = z;
+    int max_iterations = 85;
+    
+    for (int n = 0; n < max_iterations; n++) {
+        if (cabs(u) >= 2. 0) {
+            return n + 1;
+        }
+        
+        u = u * u + z;
+    }
+    
+    return 0;
 }
