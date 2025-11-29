@@ -58,6 +58,15 @@ int main() {
     return 0;
 }
 
+
+/*
+    You need to send a generation number to create a different type of image.
+    Exemples :
+        0 - Create a square with a uni color
+        1 - Create a sqaure with a circle in the middle
+        2 - 
+
+*/
 int createImage(Pixmap pixmap, int generation) {
     
     if(generation == 0) {
