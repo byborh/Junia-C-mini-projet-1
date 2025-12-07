@@ -161,7 +161,7 @@ int createMandelbrotZoom(Pixmap pixmap) {
         printf("Image %d crée : %s\n", iteration, filename);
     }
     
-    printf("\nToutes les images créés !  Utilise cette commande pour créer la vidéo :\n");
+    printf("\nToutes les images crées !  Utilise cette commande pour créer la vidéo :\n");
     printf("ffmpeg -i im%%d.ppm video.mpg\n");
     
     return 1;

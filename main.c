@@ -22,10 +22,10 @@ int main() {
         printf("│ 3 - Mandelbrot avec zoom (10 images) │\n");
         printf("│ 4 - Quitter                          │\n");
         printf("└──────────────────────────────────────┘\n");
-        printf("Choisissez une option (0-4) : ");
+        printf("Choisissez une option entre 0 et 4 : ");
         
         if (scanf("%d", &choice) != 1) {
-            printf("\n✗ Erreur de saisie !\n");
+            printf("\nErreur de saisie !\n");
             while (getchar() != '\n');
             continue;
         }
@@ -37,7 +37,7 @@ int main() {
         
         switch (choice) {
             case 0: {
-                printf("\n► Création d'un CARRÉ (900x600)...\n");
+                printf("\nCréation d'un CARRÉ (900x600)...\n");
                 
                 pixels.r = 0; pixels.g = 123; pixels.b = 255;
                 strcpy(pixmap.signature, "P3");
@@ -46,7 +46,7 @@ int main() {
                 pixmap.pixels = (Pixel*)malloc(pixmap.length * pixmap.height * sizeof(Pixel));
                 
                 if (!pixmap.pixels) {
-                    printf("✗ Erreur allocation mémoire !\n");
+                    printf("Erreur allocation mémoire !\n");
                     break;
                 }
 
@@ -55,13 +55,13 @@ int main() {
                 }
 
                 createImage(pixmap, 0, pixmap.length, pixmap.height);
-                printf("✓ Fichier créé : image.ppm\n");
+                printf("Fichier créé : image.ppm\n");
                 free(pixmap.pixels);
                 break;
             }
             
             case 1: {
-                printf("\n► Création d'un CERCLE (640x400)...\n");
+                printf("\nCréation d'un CERCLE (640x400)...\n");
                 
                 pixels.r = 0; pixels.g = 123; pixels.b = 255;
                 strcpy(pixmap.signature, "P3");
@@ -70,7 +70,7 @@ int main() {
                 pixmap.pixels = (Pixel*)malloc(pixmap.length * pixmap.height * sizeof(Pixel));
                 
                 if (!pixmap.pixels) {
-                    printf("✗ Erreur allocation mémoire !\n");
+                    printf("Erreur allocation mémoire !\n");
                     break;
                 }
 
@@ -79,13 +79,13 @@ int main() {
                 }
 
                 createImage(pixmap, 1, pixmap.length, pixmap.height);
-                printf("✓ Fichier créé : image.ppm\n");
+                printf("Fichier créé : image.ppm\n");
                 free(pixmap.pixels);
                 break;
             }
             
             case 2: {
-                printf("\n► Création du MANDELBROT (900x600)...\n");
+                printf("\nCréation du MANDELBROT (900x600)...\n");
                 
                 pixels.r = 0; pixels.g = 123; pixels.b = 255;
                 strcpy(pixmap.signature, "P3");
@@ -94,7 +94,7 @@ int main() {
                 pixmap.pixels = (Pixel*)malloc(pixmap.length * pixmap.height * sizeof(Pixel));
                 
                 if (!pixmap.pixels) {
-                    printf("✗ Erreur allocation mémoire !\n");
+                    printf("Erreur allocation mémoire !\n");
                     break;
                 }
 
@@ -103,13 +103,13 @@ int main() {
                 }
 
                 createImage(pixmap, 2, pixmap.length, pixmap.height);
-                printf("✓ Fichier créé : image.ppm\n");
+                printf("Fichier créé : image.ppm\n");
                 free(pixmap.pixels);
                 break;
             }
             
             case 3: {
-                printf("\n► Création du MANDELBROT ZOOM (900x600, 10 images)...\n");
+                printf("\nCréation du MANDELBROT ZOOM (900x600, 10 images)...\n");
                 
                 pixels.r = 0; pixels.g = 123; pixels.b = 255;
                 strcpy(pixmap.signature, "P3");
@@ -118,7 +118,7 @@ int main() {
                 pixmap.pixels = (Pixel*)malloc(pixmap.length * pixmap.height * sizeof(Pixel));
                 
                 if (!pixmap.pixels) {
-                    printf("✗ Erreur allocation mémoire !\n");
+                    printf("Erreur allocation mémoire !\n");
                     break;
                 }
 
@@ -127,7 +127,7 @@ int main() {
                 }
 
                 createImage(pixmap, 3, pixmap.length, pixmap.height);
-                printf("✓ Fichiers créés : im0.ppm à im9.ppm\n");
+                printf("Fichiers créés : im0.ppm à im9.ppm\n");
                 printf("Pour créer la vidéo :\n");
                 printf("ffmpeg -i im%%d.ppm video.mpg\n");
                 free(pixmap.pixels);
@@ -135,13 +135,13 @@ int main() {
             }
             
             case 4: {
-                printf("\n✓ Au revoir !\n");
+                printf("\nAu revoir !\n");
                 loop = 0;
                 break;
             }
             
             default: {
-                printf("\n✗ Choix invalide !  Veuillez entrer 0-4.\n");
+                printf("\nChoix invalide !  Veuillez entrer 0-4.\n");
                 break;
             }
         }
