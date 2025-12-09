@@ -168,7 +168,6 @@ int createMandelbrotZoom(Pixmap pixmap) {
     return 1;
 }
 
-// --- LA FONCTION PALETTE CORRIGÉE ---
 color palette(int c) {
     color rgb;
 
