@@ -19,7 +19,8 @@ int main() {
         printf("│ 1 - Cercle au centre                 │\n");
         printf("│ 2 - Mandelbrot (image simple)        │\n");
         printf("│ 3 - Mandelbrot avec zoom (10 images) │\n");
-        printf("│ 4 - Quitter                          │\n");
+        printf("│ 4 - Palette (Couleurs dynamiques)    │\n");
+        printf("│ 5 - Quitter                          │\n");
         printf("└──────────────────────────────────────┘\n");
         printf("Choisissez une option entre 0 et 4 : ");
         
@@ -132,15 +133,39 @@ int main() {
                 free(pixmap.pixels);
                 break;
             }
-            
+
             case 4: {
+                printf("\nCréation du MANDELBROT (900x600) avec createPalette (coueleurs dynamiques)...\n");
+                
+                pixels.r = 0; pixels.g = 123; pixels.b = 255;
+                strcpy(pixmap.signature, "P3");
+                pixmap.length = 900;
+                pixmap.height = 600;
+                pixmap.pixels = (Pixel*)malloc(pixmap.length * pixmap.height * sizeof(Pixel));
+                
+                if (!pixmap.pixels) {
+                    printf("Erreur allocation mémoire !\n");
+                    break;
+                }
+
+                for (int i = 0; i < pixmap.length * pixmap.height; i++) {
+                    pixmap.pixels[i] = pixels;
+                }
+
+                createImage(pixmap, 4, pixmap.length, pixmap.height);
+                printf("Fichier créé : image.ppm\n");
+                free(pixmap.pixels);
+                break;
+            }
+            
+            case 5: {
                 printf("\nAu revoir !\n");
                 loop = 0;
                 break;
             }
             
             default: {
-                printf("\nChoix invalide !  Veuillez entrer 0-4.\n");
+                printf("\nChoix invalide !  Veuillez entrer 0-5.\n");
                 break;
             }
         }

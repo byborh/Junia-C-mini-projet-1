@@ -23,6 +23,7 @@ int createImage(Pixmap pixmap, int generation, int length, int height) {
     else if (generation == 1) createCircle(pixmap);
     else if (generation == 2) createMandelbrot(pixmap, X1, Y1, X2, Y2);
     else if (generation == 3) createMandelbrotZoom(pixmap);
+    else if (generation == 4) createPalette(pixmap, X1, Y1, X2, Y2);
     
     printf("Allez vérifier si j'ai pu crée le fichier ou pas, normalement, si !  sinon, c TOI le problème BHAHAHAHAHAH\n");
 
@@ -164,5 +165,77 @@ int createMandelbrotZoom(Pixmap pixmap) {
     printf("\nToutes les images crées !  Utilise cette commande pour créer la vidéo :\n");
     printf("ffmpeg -i im%%d.ppm video.mpg\n");
     
+    return 1;
+}
+
+// --- LA FONCTION PALETTE CORRIGÉE ---
+color palette(int c) {
+    color rgb;
+
+    c = c % 1785;
+
+    if (c >= 0 && c <= 255) {
+        rgb.red = c;
+        rgb.green = 0;
+        rgb.blue = 0;
+    }
+    else if (c >= 256 && c <= 510) {
+        rgb.red = 255;
+        rgb.green = c - 255;
+        rgb.blue = 0;
+    }
+    else if (c >= 511 && c <= 765) {
+        rgb.red = 765 - c;
+        rgb.green = 255;
+        rgb.blue = 0;
+    }
+    else if (c >= 766 && c <= 1020) {
+        rgb.red = 0;
+        rgb.green = 255;
+        rgb.blue = c - 765;
+    }
+    else if (c >= 1021 && c <= 1275) {
+        rgb.red = 0;
+        rgb.green = 1275 - c;
+        rgb.blue = 255;
+    }
+    else if (c >= 1276 && c <= 1530) {
+        rgb.red = c - 1275;
+        rgb.green = 0;
+        rgb.blue = 255;
+    }
+    else { 
+        rgb.red = 255;
+        rgb.green = 0;
+        rgb.blue = 1785 - c;
+    }
+
+    return rgb;
+}
+
+int createPalette(Pixmap pixmap, double x1, double y1, double x2, double y2) {
+    FILE* f = fopen(IMG_FILE, "w");
+    if (!f) {
+        printf("Le fichier est non ouvrable/modifiable !\n");
+        return 0;
+    }
+
+    fprintf(f, "%s\n%d %d\n%d\n", pixmap.signature, pixmap.length, pixmap.height, OPACITY);
+    
+    for (int j = 0; j < pixmap.height; j++) {
+        for (int i = 0; i < pixmap.length; i++) {
+            double x = x1 + (x2 - x1) * i / (pixmap.length - 1);
+            double y = y1 + (y2 - y1) * j / (pixmap.height - 1);
+
+            int c = convergence(x, y);
+
+            color rgb = palette(c * 20);
+
+            fprintf(f, "%d %d %d ", rgb.red, rgb.green, rgb.blue);
+        }
+        fprintf(f, "\n");
+    }
+
+    fclose(f);
     return 1;
 }

@@ -17,6 +17,7 @@
 #define TARGET_X -0.99
 #define TARGET_Y 0.3
 #define ZOOM_ITERATIONS 10
+#define MAX_HEX 255
 
 typedef struct 
 {
@@ -33,11 +34,20 @@ typedef struct
     Pixel* pixels;
 } Pixmap;
 
+typedef struct {
+    unsigned char red;
+    unsigned char green;
+    unsigned char blue;
+} color;
+
+
 int createImage(Pixmap pixmap, int generation, int length, int height);
 int createSquare(Pixmap pixmap);
 int createCircle(Pixmap pixmap);
 int createMandelbrot(Pixmap pixmap, double x1, double y1, double x2, double y2);
 int createMandelbrotZoom(Pixmap pixmap);
 int convergence(double x, double y);
+int createPalette(Pixmap pixmap, double x1, double y1, double x2, double y2);
+color palette(int c);
 
 #endif
