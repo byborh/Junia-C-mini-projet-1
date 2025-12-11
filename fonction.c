@@ -171,8 +171,12 @@ int createMandelbrotZoom(Pixmap pixmap) {
 color palette(int c) {
     color rgb;
 
+    // On utilise un modulo pour créer un cycle : 
+    // quand on dépasse 1785, on recommence au début (effet de boucle).
     c = c % 1785;
 
+    // Ici, on gère le mélange des couleurs par paliers.
+    // On fait varier R, G et B progressivement pour créer un dégradé fluide.
     if (c >= 0 && c <= 255) {
         rgb.red = c;
         rgb.green = 0;
@@ -213,23 +217,31 @@ color palette(int c) {
 }
 
 int createPalette(Pixmap pixmap, double x1, double y1, double x2, double y2) {
+    // Ouverture du fichier image en mode écriture
     FILE* f = fopen(IMG_FILE, "w");
     if (!f) {
         printf("Le fichier est non ouvrable/modifiable !\n");
         return 0;
     }
 
+    // Écriture de l'en-tête standard pour le format PPM (type P3)
     fprintf(f, "%s\n%d %d\n%d\n", pixmap.signature, pixmap.length, pixmap.height, OPACITY);
     
+    // On parcourt chaque pixel de l'image (hauteur x largeur)
     for (int j = 0; j < pixmap.height; j++) {
         for (int i = 0; i < pixmap.length; i++) {
+            
+            // On convertit la position du pixel (i, j) en coordonnées du plan mathématique (x, y)
             double x = x1 + (x2 - x1) * i / (pixmap.length - 1);
             double y = y1 + (y2 - y1) * j / (pixmap.height - 1);
 
+            // Calcul de la convergence (Mandelbrot ou Julia) pour ce point
             int c = convergence(x, y);
 
+            // On récupère la couleur correspondante (le * 20 resserre les bandes de couleurs)
             color rgb = palette(c * 20);
 
+            // On écrit les valeurs RGB du pixel dans le fichier
             fprintf(f, "%d %d %d ", rgb.red, rgb.green, rgb.blue);
         }
         fprintf(f, "\n");
