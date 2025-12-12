@@ -172,8 +172,7 @@ color palette(int c) {
     color rgb;
 
     // On utilise un modulo pour créer un cycle : 
-    // quand on dépasse 1785, on recommence au début (effet de boucle).
-    c = c % 1785;
+    c = c % 400;
 
     // Ici, on gère le mélange des couleurs par paliers.
     // On fait varier R, G et B progressivement pour créer un dégradé fluide.
