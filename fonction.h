@@ -40,6 +40,20 @@ typedef struct {
     unsigned char blue;
 } color;
 
+typedef struct {
+    int width;
+    int height;
+    double Xmin;
+    double Ymin;
+    double Xmax;
+    double Ymax;
+    double scale;
+    double pixwidth;
+    int* convrg;
+
+
+} mandel_pic;
+
 
 int createImage(Pixmap pixmap, int generation, int length, int height);
 int createSquare(Pixmap pixmap);
@@ -49,5 +63,7 @@ int createMandelbrotZoom(Pixmap pixmap);
 int convergence(double x, double y);
 int createPalette(Pixmap pixmap, double x1, double y1, double x2, double y2);
 color palette(int c);
+int new_mandel();
+int save_mandel(mandel_pic *mandel_pic);
 
 #endif
