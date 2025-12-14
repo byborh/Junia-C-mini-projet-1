@@ -249,3 +249,19 @@ int createPalette(Pixmap pixmap, double x1, double y1, double x2, double y2) {
     fclose(f);
     return 1;
 }
+
+struct mandel_pic new_mandel(int width, int height, double Xmin, double Ymin, double scale) {
+
+    mandel_pic mandel;
+    mandel.width = width;
+    mandel.height = height;
+    mandel.Xmin = Xmin;
+    mandel.Ymin = Ymin;
+    mandel.Xmax = 1;
+    mandel.Ymax = 2;
+    mandel.scale = 3;
+    mandel.pixwidth = 4;
+    mandel.convrg = 5;
+
+    return mandel;
+}
