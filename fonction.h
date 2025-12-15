@@ -65,7 +65,7 @@ int createMandelbrotZoom(Pixmap pixmap);
 int convergence(double x, double y);
 int createPalette(Pixmap pixmap, double x1, double y1, double x2, double y2);
 color palette(int c);
-int new_mandel(int width, int height, double Xmin, double Ymin, double scale);
+struct mandel_pic new_mandel(int width, int height, double Xmin, double Ymin, double scale);
 int save_mandel(mandel_pic *mandel_pic);
 
 #endif

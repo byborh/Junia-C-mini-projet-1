@@ -250,18 +250,23 @@ int createPalette(Pixmap pixmap, double x1, double y1, double x2, double y2) {
     return 1;
 }
 
-struct mandel_pic new_mandel(int width, int height, double Xmin, double Ymin, double scale) {
+mandel_pic new_mandel(int width, int height, double Xmin, double Ymin, double scale) {
 
     mandel_pic mandel;
     mandel.width = width;
     mandel.height = height;
     mandel.Xmin = Xmin;
     mandel.Ymin = Ymin;
-    mandel.Xmax = 1;
-    mandel.Ymax = 2;
-    mandel.scale = 3;
-    mandel.pixwidth = 4;
-    mandel.convrg = 5;
+    mandel.scale = scale;
+    mandel.Xmax = Xmin + (scale * 3.0);
+    mandel.Ymax = Ymin + (scale * 3.0 * ((double)height / (double)width));
+    mandel.pixwidth = (scale * 3.0) / (double)width;
+    mandel.convrg = (int *)malloc(width * height * sizeof(int));
+
+    if (mandel.convrg == NULL) {
+        fprintf(stderr, "Erreur : échece de l'allocation mémoire pour convrg\n");
+        exit(1);
+    }
 
     return mandel;
 }
