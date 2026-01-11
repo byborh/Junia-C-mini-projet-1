@@ -440,3 +440,58 @@ void generate_zoom_sequence(int width, int height, int num_frames) {
     
     printf("Génération terminée ! Utilisez ffmpeg pour créer la vidéo.\n");
 }
+
+
+// Générer une série d'images à partir de paramètres donnés
+void generate_batch(double start_x, double start_y, double start_scale, int count, int start_num) {
+    // On retrouve le centre de l'image (la cible du zoom) à partir des coordonnées reçues
+    double width_math = start_scale * 3.0;
+    double height_math = width_math * ((double)HEIGHT / LENGTH); // On utilise les constantes par défaut
+    
+    double target_x = start_x + width_math / 2.0;
+    double target_y = start_y + height_math / 2.0;
+    
+    double current_scale = start_scale;
+    double zoom_factor = 0.90; // Le même facteur que dans l'exercice 4
+    
+    mandel_pic prev_img;
+    int has_prev = 0;
+
+    printf("[Batch %d] Démarrage : %d images à partir de l'image %d\n", start_num, count, start_num);
+
+    for (int k = 0; k < count; k++) {
+        // 1. Calcul des bornes actuelles
+        double w = current_scale * 3.0;
+        double h = w * ((double)HEIGHT / LENGTH);
+        
+        double x_min = target_x - (w / 2.0);
+        double y_min = target_y - (h / 2.0);
+
+        // 2. Création
+        // Note: On utilise les dimensions par défaut LENGTH/HEIGHT (900x600) ou celles de la commande
+        // Pour simplifier ici on utilise les defines LENGTH/HEIGHT
+        mandel_pic current = new_mandel(LENGTH, HEIGHT, x_min, y_min, current_scale);
+
+        // 3. Calcul (Optimisé)
+        if (has_prev) {
+            compute_mandel_optimized(&current, &prev_img);
+            free_mandel(&prev_img);
+        } else {
+            // Pour la première image du batch, pas d'interpolation possible (on n'a pas l'image d'avant)
+            compute_mandel_optimized(&current, NULL);
+        }
+
+        // 4. Sauvegarde
+        char filename[64];
+        sprintf(filename, "frame%03d.ppm", start_num + k);
+        save_mandel(&current, filename);
+        
+        // 5. Préparation suivante
+        prev_img = current;
+        has_prev = 1;
+        current_scale *= zoom_factor;
+    }
+
+    if (has_prev) free_mandel(&prev_img);
+    printf("[Batch %d] Terminé !\n", start_num);
+}

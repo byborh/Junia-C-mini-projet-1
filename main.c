@@ -2,8 +2,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
-int main() {
+int main(int argc, char *argv[]) {
+    if (argc >= 6) {
+        double x = atof(argv[1]);
+        double y = atof(argv[2]);
+        double s = atof(argv[3]);
+        int count = atoi(argv[4]);
+        int start = atoi(argv[5]);
+        
+        generate_batch(x, y, s, count, start);
+        return 0;
+    }
+
     printf("╔════════════════════════════════════════════╗\n");
     printf("║     Générateur d'Images Fractales          ║\n");
     printf("╚════════════════════════════════════════════╝\n\n");
@@ -23,9 +35,10 @@ int main() {
         printf("│ 5 - Utilisation de mandel_pic        │\n");
         printf("│ 6 - Zoom Optimisé par Interpolation  │\n");
         printf("│ 7 - Génération de séquence vidéo     │\n");
-        printf("│ 8 - Quitter                          │\n");
+        printf("│ 8 - Multitâche                       │\n");
+        printf("│ 9 - Quitter                          │\n");
         printf("└──────────────────────────────────────┘\n");
-        printf("Choisissez une option entre 0 et 8 : ");
+        printf("Choisissez une option entre 0 et 9 : ");
         
         if (scanf("%d", &choice) != 1) {
             printf("\nErreur de saisie !\n");
@@ -208,8 +221,52 @@ int main() {
                 
                 break;
             }
-            
+
             case 8: {
+                printf("\n=== LANCEMENT MULTITÂCHE ===\n");
+                printf("On va générer 40 images au total, réparties sur 4 processus.\n");
+                
+                // Paramètres de la cible (Vallée des hippocampes)
+                double tx = -0.743643887037151;
+                double ty = 0.13182590420533;
+                double start_scale = 1.0;
+                double zoom_factor = 0.90;
+                
+                // On divise le travail en 4 parties de 10 images
+                int total_images = 40;
+                int split = 4;
+                int imgs_per_proc = total_images / split;
+
+                for (int p = 0; p < split; p++) {
+                    int start_frame = p * imgs_per_proc;
+                    
+                    // Calcul de l'échelle au début de ce batch
+                    // scale_p = start_scale * (0.9 ^ start_frame)
+                    double current_scale = start_scale * pow(zoom_factor, start_frame);
+                    
+                    // Calcul des Xmin/Ymin pour ce batch
+                    double w = current_scale * 3.0;
+                    double h = w * ((double)HEIGHT / LENGTH); // Ratio 900x600
+                    double xm = tx - w/2.0;
+                    double ym = ty - h/2.0;
+
+                    // Création de la commande système
+                    // ./test Xmin Ymin Scale Count StartNum &
+                    char command[256];
+                    
+                    // Note: le '&' à la fin dit à Linux de lancer en arrière-plan et de rendre la main tout de suite
+                    sprintf(command, "./test %f %f %f %d %d &", xm, ym, current_scale, imgs_per_proc, start_frame);
+                    
+                    printf("Lancement processus %d : %s\n", p+1, command);
+                    system(command);
+                }
+                
+                printf("\nLes 4 processus travaillent en parallèle !\n");
+                printf("Regardez votre gestionnaire de tâches ou attendez quelques secondes.\n");
+                break;
+            }
+            
+            case 9: {
                 printf("\nAu revoir !\n");
                 loop = 0;
                 break;

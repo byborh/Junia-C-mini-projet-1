@@ -76,4 +76,6 @@ int interpolate(mandel_pic *mp, double x, double y); // Estime la valeur à part
 void compute_mandel_optimized(mandel_pic *current, mandel_pic *prev); // Calcule l'image actuelle en utilisant (si possible) l'image précédente 'prev'
 
 void generate_zoom_sequence(int width, int height, int num_frames);
+
+void generate_batch(double start_x, double start_y, double start_scale, int count, int start_num); // Génère une série d'images à partir de paramètres précis (pour le multitâche)
 #endif
