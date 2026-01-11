@@ -74,4 +74,6 @@ void free_mandel(mandel_pic *mp);
 
 int interpolate(mandel_pic *mp, double x, double y); // Estime la valeur à partir de l'image précédente
 void compute_mandel_optimized(mandel_pic *current, mandel_pic *prev); // Calcule l'image actuelle en utilisant (si possible) l'image précédente 'prev'
+
+void generate_zoom_sequence(int width, int height, int num_frames);
 #endif

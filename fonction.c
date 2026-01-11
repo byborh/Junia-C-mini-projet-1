@@ -375,3 +375,68 @@ void compute_mandel_optimized(mandel_pic *current, mandel_pic *prev) {
         }
     }
 }
+
+
+// générer une séquence d'images zoomées
+void generate_zoom_sequence(int width, int height, int num_frames) {
+    // Point intéressant (Vallée des hippocampes)
+    double target_x = -0.743643887037151;
+    double target_y = 0.13182590420533;
+    
+    double scale = 1.0; // Zoom de départ (vue large)
+    double zoom_factor = 0.90; // On zoome de 10% à chaque image
+    
+    // Structure pour garder en mémoire l'image précédente
+    mandel_pic prev_img;
+    int has_prev = 0; // Booléen pour savoir si c'est la première itération
+
+    printf("Début de la génération de %d images vers (%f, %f)...\n", num_frames, target_x, target_y);
+
+    for (int k = 0; k < num_frames; k++) {
+        // 1. Calcul des bornes pour que (target_x, target_y) reste au centre
+        // Largeur mathématique totale = scale * 3.0
+        double w_math = scale * 3.0;
+        double h_math = w_math * ((double)height / width);
+        
+        double x_min = target_x - (w_math / 2.0);
+        double y_min = target_y - (h_math / 2.0);
+
+        // 2. Création de la nouvelle structure
+        mandel_pic current = new_mandel(width, height, x_min, y_min, scale);
+
+        // 3. Calcul (Optimisé si on a une image précédente)
+        if (has_prev) {
+            // On passe l'adresse de prev_img pour l'interpolation
+            compute_mandel_optimized(&current, &prev_img);
+            
+            // On n'a plus besoin des données de l'image d'avant, on libère sa mémoire
+            free_mandel(&prev_img); 
+        } else {
+            // Premier tour : calcul complet
+            compute_mandel_optimized(&current, NULL);
+        }
+
+        // 4. Sauvegarde du fichier
+        char filename[64];
+        // %03d permet d'avoir frame001, frame002, etc. (tri facile)
+        sprintf(filename, "frame%03d.ppm", k);
+        save_mandel(&current, filename);
+        
+        printf("Image %d/%d générée (scale = %e)\n", k + 1, num_frames, scale);
+
+        // 5. Préparation de l'itération suivante
+        // L'image actuelle devient l'image précédente
+        prev_img = current; 
+        has_prev = 1;
+        
+        // On réduit l'échelle pour le prochain tour (Zoom In)
+        scale *= zoom_factor;
+    }
+
+    // Libération de la toute dernière image restée en mémoire
+    if (has_prev) {
+        free_mandel(&prev_img);
+    }
+    
+    printf("Génération terminée ! Utilisez ffmpeg pour créer la vidéo.\n");
+}

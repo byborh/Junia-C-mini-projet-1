@@ -1,0 +1,2 @@
+pour générer une vidéo à partir de mes images : 
+ffmpeg -framerate 10 -i frame%03d.ppm -c:v libx264 -pix_fmt yuv420p video_zoom.mp4

@@ -22,9 +22,10 @@ int main() {
         printf("│ 4 - Palette (Couleurs dynamiques)    │\n");
         printf("│ 5 - Utilisation de mandel_pic        │\n");
         printf("│ 6 - Zoom Optimisé par Interpolation  │\n");
-        printf("│ 7 - Quitter                          │\n");
+        printf("│ 7 - Génération de séquence vidéo     │\n");
+        printf("│ 8 - Quitter                          │\n");
         printf("└──────────────────────────────────────┘\n");
-        printf("Choisissez une option entre 0 et 7 : ");
+        printf("Choisissez une option entre 0 et 8 : ");
         
         if (scanf("%d", &choice) != 1) {
             printf("\nErreur de saisie !\n");
@@ -180,19 +181,14 @@ int main() {
             case 6: {
                 printf("\nTest EXERCICE 3 : Zoom Optimisé par Interpolation...\n");
                 
-                // Création de l'image de base (Vue large) 
                 printf("1. Calcul de l'image de base (référence)...\n");
                 mandel_pic base = new_mandel(900, 600, X1, -1.0, 1.0);
                 compute_mandel_optimized(&base, NULL); // Pas d'image avant, calcul normal
                 save_mandel(&base, "image.ppm");
 
-                // réation d'une image zoomée
-                // On zoome un peu (scale plus petit) et on se décale un peu
-                // Ancien scale = 1.0. Nouveau scale = 0.5 (Zoom x2)
                 printf("2. Calcul de l'image zoomée (avec optimisation)...\n");
                 mandel_pic zoom = new_mandel(900, 600, -1.5, -0.5, 0.5);
                 
-                // C'est ICI que la magie opère : on passe l'adresse de 'base' comme référence
                 compute_mandel_optimized(&zoom, &base);
                 
                 save_mandel(&zoom, "zoom_opti.ppm");
@@ -203,8 +199,17 @@ int main() {
                 free_mandel(&zoom);
                 break;
             }
-            
+
             case 7: {
+                printf("\nTest EXERCICE 4 : Génération de séquence vidéo...\n");
+                printf("Attention : Cela va créer 50 fichiers frameXXX.ppm dans le dossier.\n");
+                
+                generate_zoom_sequence(320, 240, 100);
+                
+                break;
+            }
+            
+            case 8: {
                 printf("\nAu revoir !\n");
                 loop = 0;
                 break;
