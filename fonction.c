@@ -322,3 +322,56 @@ void free_mandel(mandel_pic *mp) {
         mp->convrg = NULL;
     }
 }
+
+
+// optimisation functions
+int interpolate(mandel_pic *mp, double x, double y) {
+    // 1. Petite chance aléatoire de forcer le recalcul (1%)
+    if ((rand() % 100) == 0) return -1;
+
+    int i = (int)((x - mp->Xmin) / mp->pixwidth);
+    int j = (int)((y - mp->Ymin) / mp->pixwidth);
+
+    // 3. Vérification : est-on DANS l'image précédente ?
+    // On retire 1 aux bornes car on va regarder les voisins (i+1, j+1)
+    if (i < 0 || i >= mp->width - 1 || j < 0 || j >= mp->height - 1) {
+        return -1; // Hors champ, il faut recalculer
+    }
+
+    // 4. Test des 4 voisins (le carré autour du point)
+    int val = mp->convrg[j * mp->width + i]; // Pixel haut-gauche
+    
+    // Si le pixel de droite, celui du bas, et celui en bas à droite sont identiques
+    if (val == mp->convrg[j * mp->width + (i + 1)] &&
+        val == mp->convrg[(j + 1) * mp->width + i] &&
+        val == mp->convrg[(j + 1) * mp->width + (i + 1)]) {
+        
+        return val;
+    }
+
+    return -1;
+}
+
+void compute_mandel_optimized(mandel_pic *current, mandel_pic *prev) {
+    for (int j = 0; j < current->height; j++) {
+        for (int i = 0; i < current->width; i++) {
+            
+            double x = current->Xmin + i * current->pixwidth;
+            double y = current->Ymin + j * current->pixwidth;
+            
+            int val = -1;
+
+            // Si on a une image précédente, on essaie d'interpoler
+            if (prev != NULL) {
+                val = interpolate(prev, x, y);
+            }
+
+            // Si l'interpolation a échoué (renvoi -1), on fait le vrai calcul
+            if (val == -1) {
+                val = convergence(x, y);
+            }
+
+            current->convrg[j * current->width + i] = val;
+        }
+    }
+}

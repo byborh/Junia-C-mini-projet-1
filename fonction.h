@@ -3,7 +3,7 @@
 
 #include <complex.h>
 #include <stdio.h>
-#include <stdlib.h> // Nécessaire pour malloc
+#include <stdlib.h>
 
 #define LENGTH 900
 #define HEIGHT 600
@@ -67,10 +67,11 @@ int convergence(double x, double y);
 int createPalette(Pixmap pixmap, double x1, double y1, double x2, double y2);
 color palette(int c);
 
-// new fonctions for ex 2
 mandel_pic new_mandel(int width, int height, double Xmin, double Ymin, double scale);
 void compute_mandel(mandel_pic *mp);
 int save_mandel(mandel_pic *mp, char *filename);
 void free_mandel(mandel_pic *mp);
 
+int interpolate(mandel_pic *mp, double x, double y); // Estime la valeur à partir de l'image précédente
+void compute_mandel_optimized(mandel_pic *current, mandel_pic *prev); // Calcule l'image actuelle en utilisant (si possible) l'image précédente 'prev'
 #endif

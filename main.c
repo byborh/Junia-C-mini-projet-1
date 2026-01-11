@@ -20,10 +20,11 @@ int main() {
         printf("│ 2 - Mandelbrot (image simple)        │\n");
         printf("│ 3 - Mandelbrot avec zoom (10 images) │\n");
         printf("│ 4 - Palette (Couleurs dynamiques)    │\n");
-        printf("│ 5 - TEST TP2 EX 2 (Struct Mandel_pic)    │\n");
-        printf("│ 6 - Quitter                          │\n");
+        printf("│ 5 - Utilisation de mandel_pic        │\n");
+        printf("│ 6 - Zoom Optimisé par Interpolation  │\n");
+        printf("│ 7 - Quitter                          │\n");
         printf("└──────────────────────────────────────┘\n");
-        printf("Choisissez une option entre 0 et 6 : ");
+        printf("Choisissez une option entre 0 et 7 : ");
         
         if (scanf("%d", &choice) != 1) {
             printf("\nErreur de saisie !\n");
@@ -175,8 +176,35 @@ int main() {
                 free_mandel(&mp);
                 break;
             }
-            
+
             case 6: {
+                printf("\nTest EXERCICE 3 : Zoom Optimisé par Interpolation...\n");
+                
+                // Création de l'image de base (Vue large) 
+                printf("1. Calcul de l'image de base (référence)...\n");
+                mandel_pic base = new_mandel(900, 600, X1, -1.0, 1.0);
+                compute_mandel_optimized(&base, NULL); // Pas d'image avant, calcul normal
+                save_mandel(&base, "image.ppm");
+
+                // réation d'une image zoomée
+                // On zoome un peu (scale plus petit) et on se décale un peu
+                // Ancien scale = 1.0. Nouveau scale = 0.5 (Zoom x2)
+                printf("2. Calcul de l'image zoomée (avec optimisation)...\n");
+                mandel_pic zoom = new_mandel(900, 600, -1.5, -0.5, 0.5);
+                
+                // C'est ICI que la magie opère : on passe l'adresse de 'base' comme référence
+                compute_mandel_optimized(&zoom, &base);
+                
+                save_mandel(&zoom, "zoom_opti.ppm");
+                
+                printf("Fini ! Comparez 'image.ppm' et 'zoom_opti.ppm'.\n");
+
+                free_mandel(&base);
+                free_mandel(&zoom);
+                break;
+            }
+            
+            case 7: {
                 printf("\nAu revoir !\n");
                 loop = 0;
                 break;
