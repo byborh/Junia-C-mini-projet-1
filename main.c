@@ -20,9 +20,10 @@ int main() {
         printf("│ 2 - Mandelbrot (image simple)        │\n");
         printf("│ 3 - Mandelbrot avec zoom (10 images) │\n");
         printf("│ 4 - Palette (Couleurs dynamiques)    │\n");
-        printf("│ 5 - Quitter                          │\n");
+        printf("│ 5 - TEST TP2 EX 2 (Struct Mandel_pic)    │\n");
+        printf("│ 6 - Quitter                          │\n");
         printf("└──────────────────────────────────────┘\n");
-        printf("Choisissez une option entre 0 et 4 : ");
+        printf("Choisissez une option entre 0 et 6 : ");
         
         if (scanf("%d", &choice) != 1) {
             printf("\nErreur de saisie !\n");
@@ -157,8 +158,25 @@ int main() {
                 free(pixmap.pixels);
                 break;
             }
-            
+
             case 5: {
+                printf("\nTest EXERCICE 2 : Utilisation de mandel_pic...\n");
+                
+                mandel_pic mp = new_mandel(900, 600, X1, Y2, 1.0);
+                
+                printf("Structure allouée. Dimensions: %dx%d. Xmin: %f, Ymin: %f\n", 
+                       mp.width, mp.height, mp.Xmin, mp.Ymin);
+                
+                printf("Calcul en cours...\n");
+                compute_mandel(&mp);
+                
+                save_mandel(&mp, "image.ppm");
+                
+                free_mandel(&mp);
+                break;
+            }
+            
+            case 6: {
                 printf("\nAu revoir !\n");
                 loop = 0;
                 break;

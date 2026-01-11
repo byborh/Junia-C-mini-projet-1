@@ -250,23 +250,75 @@ int createPalette(Pixmap pixmap, double x1, double y1, double x2, double y2) {
     return 1;
 }
 
-// mandel_pic new_mandel(int width, int height, double Xmin, double Ymin, double scale) {
+mandel_pic new_mandel(int width, int height, double Xmin, double Ymin, double scale) {
+    mandel_pic mandel;
+    
+    mandel.width = width;
+    mandel.height = height;
+    mandel.Xmin = Xmin;
+    mandel.Ymin = Ymin;
+    mandel.scale = scale;
+    
+    mandel.Xmax = Xmin + (scale * 3.0);
+    mandel.Ymax = Ymin + (scale * 3.0 * ((double)height / (double)width));
+    mandel.pixwidth = (scale * 3.0) / (double)width;
+    
+    mandel.convrg = (int *)malloc(width * height * sizeof(int));
 
-//     mandel_pic mandel;
-//     mandel.width = width;
-//     mandel.height = height;
-//     mandel.Xmin = Xmin;
-//     mandel.Ymin = Ymin;
-//     mandel.scale = scale;
-//     mandel.Xmax = Xmin + (scale * 3.0);
-//     mandel.Ymax = Ymin + (scale * 3.0 * ((double)height / (double)width));
-//     mandel.pixwidth = (scale * 3.0) / (double)width;
-//     mandel.convrg = (int *)malloc(width * height * sizeof(int));
+    if (mandel.convrg == NULL) {
+        fprintf(stderr, "Erreur : échec de l'allocation mémoire pour convrg\n");
+        exit(1);
+    }
 
-//     if (mandel.convrg == NULL) {
-//         fprintf(stderr, "Erreur : échece de l'allocation mémoire pour convrg\n");
-//         exit(1);
-//     }
+    return mandel;
+}
 
-//     return mandel;
-// }
+// Fonction pour rempli la structure (calculer Mandelbrot)
+void compute_mandel(mandel_pic *mp) {
+    for (int j = 0; j < mp->height; j++) {
+        for (int i = 0; i < mp->width; i++) {
+            // Calcul des coordonnées mathématiques
+            // On utilise pixwidth pour avancer pas à pas
+            double x = mp->Xmin + i * mp->pixwidth;
+            double y = mp->Ymin + j * mp->pixwidth; 
+            
+            // Calcul de la convergence et stockage dans le tableau
+            mp->convrg[j * mp->width + i] = convergence(x, y);
+        }
+    }
+}
+
+int save_mandel(mandel_pic *mp, char *filename) {
+    FILE* f = fopen(filename, "w");
+    if (!f) {
+        printf("Le fichier %s est non ouvrable/modifiable !\n", filename);
+        return 0;
+    }
+
+    // en tete ppm
+    fprintf(f, "P3\n%d %d\n%d\n", mp->width, mp->height, OPACITY);
+
+    for (int j = 0; j < mp->height; j++) {
+        for (int i = 0; i < mp->width; i++) {
+            // Récupération de la valeur de convergence stockée
+            int c = mp->convrg[j * mp->width + i];
+            
+            // Application de la palette (facteur 20 pour le style)
+            color rgb = palette(c * 20);
+            
+            fprintf(f, "%d %d %d ", rgb.red, rgb.green, rgb.blue);
+        }
+        fprintf(f, "\n");
+    }
+
+    fclose(f);
+    printf("Image sauvegardée dans %s\n", filename);
+    return 1;
+}
+
+void free_mandel(mandel_pic *mp) {
+    if (mp->convrg != NULL) {
+        free(mp->convrg);
+        mp->convrg = NULL;
+    }
+}
