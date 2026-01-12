@@ -57,6 +57,12 @@ typedef struct {
     int *convrg;
 } mandel_pic;
 
+typedef struct {
+    int width;
+    int height;
+    Pixel* pixels;
+} picture;
+
 
 int createImage(Pixmap pixmap, int generation, int length, int height);
 int createSquare(Pixmap pixmap);
@@ -76,4 +82,8 @@ int interpolate(mandel_pic *mp, double x, double y); // Estime la valeur à part
 void compute_mandel_optimized(mandel_pic *current, mandel_pic *prev); // Calcule l'image actuelle en utilisant (si possible) l'image précédente 'prev'
 void generate_zoom_sequence(int width, int height, int num_frames);
 void generate_batch(double start_x, double start_y, double start_scale, int count, int start_num); // Génère une série d'images à partir de paramètres précis (pour le multitâche)
+
+picture new_pic(int width, int height);
+int save_pic(picture *p, char *filename);
+int set_pic(picture *p, int x, int y, Pixel color);
 #endif
