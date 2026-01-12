@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
             case 0: {
                 printf("\nCréation d'un CARRÉ (900x600)...\n");
                 
-                pixels.r = 0; pixels.g = 123; pixels.b = 255;
+                pixels.r = 0; pixels.g = 123; pixels.b = MAX_HEX;
                 strcpy(pixmap.signature, "P3");
                 pixmap.length = 10;
                 pixmap.height = 10;
@@ -79,7 +79,7 @@ int main(int argc, char *argv[]) {
             case 1: {
                 printf("\nCréation d'un CERCLE (640x400)...\n");
                 
-                pixels.r = 0; pixels.g = 123; pixels.b = 255;
+                pixels.r = 0; pixels.g = 123; pixels.b = MAX_HEX;
                 strcpy(pixmap.signature, "P3");
                 pixmap.length = 640;
                 pixmap.height = 400;
@@ -103,7 +103,7 @@ int main(int argc, char *argv[]) {
             case 2: {
                 printf("\nCréation du MANDELBROT (900x600)...\n");
                 
-                pixels.r = 0; pixels.g = 123; pixels.b = 255;
+                pixels.r = 0; pixels.g = 123; pixels.b = MAX_HEX;
                 strcpy(pixmap.signature, "P3");
                 pixmap.length = 900;
                 pixmap.height = 600;
@@ -127,7 +127,7 @@ int main(int argc, char *argv[]) {
             case 3: {
                 printf("\nCréation du MANDELBROT ZOOM (900x600, 10 images)...\n");
                 
-                pixels.r = 0; pixels.g = 123; pixels.b = 255;
+                pixels.r = 0; pixels.g = 123; pixels.b = MAX_HEX;
                 strcpy(pixmap.signature, "P3");
                 pixmap.length = 900;
                 pixmap.height = 600;
@@ -153,7 +153,7 @@ int main(int argc, char *argv[]) {
             case 4: {
                 printf("\nCréation du MANDELBROT (900x600) avec createPalette (coueleurs dynamiques)...\n");
                 
-                pixels.r = 0; pixels.g = 123; pixels.b = 255;
+                pixels.r = 0; pixels.g = 123; pixels.b = MAX_HEX;
                 strcpy(pixmap.signature, "P3");
                 pixmap.length = 900;
                 pixmap.height = 600;
@@ -177,7 +177,7 @@ int main(int argc, char *argv[]) {
             case 5: {
                 printf("\nTest EXERCICE 2 : Utilisation de mandel_pic...\n");
                 
-                mandel_pic mp = new_mandel(900, 600, X1, Y2, 1.0);
+                mandel_pic mp = new_mandel(LENGTH, HEIGHT, X1, Y2, Y1);
                 
                 printf("Structure allouée. Dimensions: %dx%d. Xmin: %f, Ymin: %f\n", 
                        mp.width, mp.height, mp.Xmin, mp.Ymin);

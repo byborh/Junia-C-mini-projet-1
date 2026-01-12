@@ -323,7 +323,6 @@ void free_mandel(mandel_pic *mp) {
     }
 }
 
-
 // optimisation functions
 int interpolate(mandel_pic *mp, double x, double y) {
     // 1. Petite chance aléatoire de forcer le recalcul (1%)
