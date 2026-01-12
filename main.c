@@ -36,9 +36,10 @@ int main(int argc, char *argv[]) {
         printf("│ 6 - Zoom Optimisé par Interpolation  │\n");
         printf("│ 7 - Génération de séquence vidéo     │\n");
         printf("│ 8 - Multitâche                       │\n");
-        printf("│ 9 - Quitter                          │\n");
+        printf("│ 9 - Structures de données de base    │\n");
+        printf("│ 10 - Quitter                         │\n");
         printf("└──────────────────────────────────────┘\n");
-        printf("Choisissez une option entre 0 et 9 : ");
+        printf("Choisissez une option entre 0 et 10 : ");
         
         if (scanf("%d", &choice) != 1) {
             printf("\nErreur de saisie !\n");
@@ -265,8 +266,45 @@ int main(int argc, char *argv[]) {
                 printf("Regardez votre gestionnaire de tâches ou attendez quelques secondes.\n");
                 break;
             }
-            
+
             case 9: {
+                printf("\n--- Test Structure Picture ---\n");
+                
+                int w = 10;
+                int h = 10;
+                
+                // Création de l'image
+                picture p = new_pic(w, h);
+                
+                // Définition des couleurs
+                Pixel black = {0, 0, 0};
+                Pixel red   = {255, 0, 0};
+
+                // Initialisation tout en NOIR
+                for (int y = 0; y < h; y++) {
+                    for (int x = 0; x < w; x++) {
+                        set_pixel(&p, x, y, black);
+                    }
+                }
+
+                // Coloriage des 4 coins
+                // (0,0) est en haut à gauche
+                set_pixel(&p, 0, 0, red);
+                set_pixel(&p, w - 1, 0, red);
+                set_pixel(&p, 0, h - 1, red);
+                set_pixel(&p, w - 1, h - 1, red);
+                
+                // Sauvegarde
+                save_pic(&p, IMG_FILE);
+                
+                // Nettoyage mémoire
+                clean_pic(&p);
+                
+                printf("Test fini ! Oouvrez %s (tout petit carré noir avec points rouges).\n", IMG_FILE);
+                break;
+            }
+            
+            case 10: {
                 printf("\nAu revoir !\n");
                 loop = 0;
                 break;

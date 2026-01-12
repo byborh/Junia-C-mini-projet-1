@@ -84,6 +84,7 @@ void generate_zoom_sequence(int width, int height, int num_frames);
 void generate_batch(double start_x, double start_y, double start_scale, int count, int start_num); // Génère une série d'images à partir de paramètres précis (pour le multitâche)
 
 picture new_pic(int width, int height);
+void clean_pic(picture *p);
 int save_pic(picture *p, char *filename);
-int set_pic(picture *p, int x, int y, Pixel color);
+int set_pixel(picture *p, int x, int y, Pixel color);
 #endif

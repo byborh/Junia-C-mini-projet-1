@@ -273,7 +273,7 @@ mandel_pic new_mandel(int width, int height, double Xmin, double Ymin, double sc
     return mandel;
 }
 
-// Fonction pour rempli la structure (calculer Mandelbrot)
+// Fonction pour remplir la structure (calculer Mandelbrot)
 void compute_mandel(mandel_pic *mp) {
     for (int j = 0; j < mp->height; j++) {
         for (int i = 0; i < mp->width; i++) {
@@ -494,3 +494,58 @@ void generate_batch(double start_x, double start_y, double start_scale, int coun
     if (has_prev) free_mandel(&prev_img);
     printf("[Batch %d] Terminé !\n", start_num);
 }
+
+picture new_pic(int width, int height) {
+    // printf("Création d'une image %dx%d\n", width, height);
+    picture p;
+    p.width = width;
+    p.height = height;
+    
+    // Allocation du tableau de pixels
+    p.pixels = (Pixel *)malloc(width * height * sizeof(Pixel));
+    
+    if (p.pixels == NULL) {
+        fprintf(stderr, "Erreur : échec de l'allocation mémoire pour les pixels\n");
+        exit(1);
+    }
+    return p;
+}
+
+void clean_pic(picture *p) {
+    if(p->pixels != NULL) {
+        free(p->pixels);
+        p->pixels = NULL;
+    }
+}
+
+int save_pic(picture *p, char *filename) {
+    FILE* f = fopen(filename, "w");
+    if (!f) {
+        printf("Le fichier %s est non ouvrable/modifiable !\n", filename);
+        return 0;
+    }
+
+    // en tete ppm
+    fprintf(f, "P3\n%d %d\n%d\n", p->width, p->height, OPACITY);
+
+    for (int j = 0; j < p->height; j++) {
+        for (int i = 0; i < p->width; i++) {
+            // remplir les pixels
+            Pixel px = p->pixels[j * p->width + i];
+
+            fprintf(f, "%d %d %d ", px.r, px.g, px.b);
+        }
+        fprintf(f, "\n");
+    };
+
+    fclose(f);
+    printf("Image %s sauvegardée.\n", filename);
+    return 1;
+}
+
+int set_pixel(picture *p, int x, int y, Pixel color) {
+    if(x >= 0 && x < p->width && y >= 0 && y < p->height) {
+        int index = y * p->width + x;
+        p->pixels[index] = color;
+    }
+};
