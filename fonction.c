@@ -549,3 +549,15 @@ int set_pixel(picture *p, int x, int y, Pixel color) {
         p->pixels[index] = color;
     }
 };
+
+
+int draw_line(picture *p, int x0, int y0, int x1, int y1, Pixel color) {
+    // nombre de pixels à dessiner
+    int n = fmax(abs(x0-x1), abs(y0-y1)) + 1;
+
+    for(int i = 0; i <= n; i++) {
+        int x = x0 + i * (x1 - x0) / n;
+        int y = y0 + i * (y1 - y0) / n;
+        set_pixel(p, x, y, color);
+    }
+};

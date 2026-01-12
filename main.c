@@ -37,7 +37,8 @@ int main(int argc, char *argv[]) {
         printf("│ 7 - Génération de séquence vidéo     │\n");
         printf("│ 8 - Multitâche                       │\n");
         printf("│ 9 - Structures de données de base    │\n");
-        printf("│ 10 - Quitter                         │\n");
+        printf("│ 10 - Dessiner les lignes             │\n");
+        printf("│ 99 - Quitter                         │\n");
         printf("└──────────────────────────────────────┘\n");
         printf("Choisissez une option entre 0 et 10 : ");
         
@@ -305,6 +306,33 @@ int main(int argc, char *argv[]) {
             }
             
             case 10: {
+                printf("\nDraw line\n");
+                
+                picture p = new_pic(10, 10);
+                
+                Pixel white = {255, 255, 255};
+                Pixel red = {255, 0, 0};
+                Pixel blue = {0, 0, 255};
+                Pixel green = {0, 255, 0};
+                Pixel magenta = {255, 0, 255};
+
+                draw_line(&p, 0, 0, 9, 9, white);
+                draw_line(&p, 2, 2, 7, 7, red);
+                draw_line(&p, 2, 7, 7, 2, blue);
+                draw_line(&p, 1, 2, 1, 7, green);
+                draw_line(&p, 8, 2, 8, 7, green);
+                draw_line(&p, 2, 1, 7, 1, magenta);
+                draw_line(&p, 2, 8, 7, 8, magenta);
+
+                save_pic(&p, IMG_FILE);
+
+                clean_pic(&p);
+
+                printf("Test fini ! Oouvrez %s (lignes de différentes couleurs).\n", IMG_FILE);
+                break;
+            }
+
+            case 99: {
                 printf("\nAu revoir !\n");
                 loop = 0;
                 break;
