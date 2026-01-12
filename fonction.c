@@ -561,3 +561,32 @@ int draw_line(picture *p, int x0, int y0, int x1, int y1, Pixel color) {
         set_pixel(p, x, y, color);
     }
 };
+
+int sierpinski(picture *p, double x, double y, double dimension, Pixel color) {
+    double hauteur = dimension * sqrt(3.0) / 2.0;
+
+    double top_x = x + dimension / 2.0;
+    double top_y = y - hauteur;
+
+    for (int j = (int)top_y; j <= (int)y; j++) {
+        // si on sort de l'image en hauteur, on ignore
+        if(j<0 || j >= p->height) continue;
+
+        // calcul de la progression 0.0 au sommet et 1.0 à la base -> pour savoir quelle largeur faire face à cette hauteur
+        double progress = (j - top_y) / hauteur;
+
+        // la demi-largeyr à cette ligne précise
+        double half_span = (dimension / 2.0) * progress;
+
+        // calcul des bornes gauche et droite pour cette ligne
+        int start_x = (int)(top_x - half_span);
+        int end_x = (int)(top_x + half_span);
+
+        // remplissage horizontal
+        for(int i = start_x; i <= end_x; i ++) {
+            set_pixel(p, i, j, color);
+        }
+    }
+
+    return 1;
+};

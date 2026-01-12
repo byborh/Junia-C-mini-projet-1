@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     
     do {
         printf("\n┌──────────────────────────────────────┐\n");
-        printf("│         MENU PRINCIPAL                │\n");
+        printf("│         MENU PRINCIPAL               │\n");
         printf("├──────────────────────────────────────┤\n");
         printf("│ 0 - Carré (couleur unique)           │\n");
         printf("│ 1 - Cercle au centre                 │\n");
@@ -38,9 +38,10 @@ int main(int argc, char *argv[]) {
         printf("│ 8 - Multitâche                       │\n");
         printf("│ 9 - Structures de données de base    │\n");
         printf("│ 10 - Dessiner les lignes             │\n");
+        printf("| 11 - Triangle de base (Scanline)     |\n");
         printf("│ 99 - Quitter                         │\n");
         printf("└──────────────────────────────────────┘\n");
-        printf("Choisissez une option entre 0 et 10 : ");
+        printf("Choisissez une option entre 0 et 11 : ");
         
         if (scanf("%d", &choice) != 1) {
             printf("\nErreur de saisie !\n");
@@ -331,6 +332,30 @@ int main(int argc, char *argv[]) {
                 printf("Test fini ! Oouvrez %s (lignes de différentes couleurs).\n", IMG_FILE);
                 break;
             }
+
+            case 11: {
+                printf("\nTriangle de base (Scanline)...\n");
+
+                int w = 400;
+                int h = 350;
+
+                picture p = new_pic(w, h);
+
+                Pixel white = {255, 255, 255};
+                Pixel blue = {0, 0, 255};
+                for(int i = 0; i < h; i++)
+                    for(int j = 0; j < h; j++)
+                        set_pixel(&p, j, i, white);
+
+                sierpinski(&p, 0.0, 349.0, 400.0, blue);
+
+                save_pic(&p, IMG_FILE);
+                clean_pic(&p);
+                
+                printf("\nFichier %s est créé !\n", IMG_FILE);
+                break;
+            }
+
 
             case 99: {
                 printf("\nAu revoir !\n");
