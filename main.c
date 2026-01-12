@@ -39,6 +39,7 @@ int main(int argc, char *argv[]) {
         printf("│ 9 - Structures de données de base    │\n");
         printf("│ 10 - Dessiner les lignes             │\n");
         printf("| 11 - Triangle de base (Scanline)     |\n");
+        printf("| 12 - nTriangle Scanline à 3          |\n");
         printf("│ 99 - Quitter                         │\n");
         printf("└──────────────────────────────────────┘\n");
         printf("Choisissez une option entre 0 et 11 : ");
@@ -348,6 +349,29 @@ int main(int argc, char *argv[]) {
                         set_pixel(&p, j, i, white);
 
                 sierpinski(&p, 0.0, 349.0, 400.0, blue);
+
+                save_pic(&p, IMG_FILE);
+                clean_pic(&p);
+                
+                printf("\nFichier %s est créé !\n", IMG_FILE);
+                break;
+            }
+
+            case 12: {
+                printf("\nTriangle Scanline à 3 !\n");
+
+                int w = 400;
+                int h = 350;
+
+                picture p = new_pic(w, h);
+
+                Pixel white = {255, 255, 255};
+                Pixel blue = {0, 0, 255};
+                for(int i = 0; i < h; i++)
+                    for(int j = 0; j < h; j++)
+                        set_pixel(&p, j, i, white);
+
+                sierpinski_div(&p, 0.0, 349.0, 400.0, blue);
 
                 save_pic(&p, IMG_FILE);
                 clean_pic(&p);

@@ -90,4 +90,6 @@ int set_pixel(picture *p, int x, int y, Pixel color);
 
 int draw_line(picture *p, int x0, int y0, int x1, int y1, Pixel color);
 int sierpinski(picture *p, double x, double y, double dimension, Pixel color);
+
+int sierpinski_div(picture *p, double x, double y, double dimension, Pixel color);
 #endif
