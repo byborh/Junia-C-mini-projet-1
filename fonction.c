@@ -595,9 +595,17 @@ int sierpinski(picture *p, double x, double y, double dimension, Pixel color) {
 int sierpinski_div(picture *p, double x, double y, double dimension, Pixel color) {
     // je dois prendre 3 triangles et de les crées de plus en plus petits en dessou du précédent !
     // je dois le créer en utilisant la fonction sierpinski
-    sierpinski(&p, x, y, dimension, color);
-    sierpinski(&p, (x + dimension /2), y, dimension, color);
-    sierpinski(&p, (x + dimension /4), (y - dimension * sqrt(3.0)/4.0), dimension, color);
+
+    double demi_taille = dimension / 2.0;
+
+    if(dimension < 300) {
+        sierpinski(p, x, y, demi_taille, color);
+        return 1;
+    }
+
+    sierpinski(p, x, y, demi_taille, color);
+    sierpinski(p, x + demi_taille, y, demi_taille, color);
+    sierpinski(p, (x + dimension / 4.0), (y - dimension * sqrt(3.0)/4.0), demi_taille, color);
 
     return 1;
 };

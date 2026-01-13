@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
         printf("│ 9 - Structures de données de base    │\n");
         printf("│ 10 - Dessiner les lignes             │\n");
         printf("| 11 - Triangle de base (Scanline)     |\n");
-        printf("| 12 - nTriangle Scanline à 3          |\n");
+        printf("| 12 - Triangle Scanline à 3           |\n");
         printf("│ 99 - Quitter                         │\n");
         printf("└──────────────────────────────────────┘\n");
         printf("Choisissez une option entre 0 et 11 : ");
