@@ -660,3 +660,16 @@ Pixel assombrir(Pixel p, double facteur) {
     c.b = (unsigned char)(p.b * facteur);
     return c;
 }
+
+int reader(picture *p, char *filename, Pixel color) {
+    // on lit le fichier ./subject/cat.txt ou ./subject/kang.txt
+    FILE *f = fopen(filename, "r");
+    if(f == NULL) {
+        printf("Erreur : impossible d'ouvrir le fichier %s\n", filename);
+        return 0;
+    }
+
+    
+
+    // on transforme ces données en image .ppm
+}

@@ -96,4 +96,25 @@ int sierpinski_div(picture *p, double x, double y, double dimension, Pixel color
 int sierpinski_pro_max(picture *p, double x, double y, double dimension, Pixel color);
 
 Pixel assombrir(Pixel p, double facteur);
+
+/*
+Je dois créer une fonction qui lit des fichiers .txt et les écrit dans une image .ppm
+
+1) Lire le fichier n*n
+2) écrire dans le fichier
+
+à utiliser ces fonctions :
+    new_pic() -> créer une localisation et une couleur
+    save_pic() -> 
+    draw_line()
+    set_pixel()
+
+
+*/
+
+// en gros, cette fonction va lire ce qu'il y a à l'intérieur de notre fichier
+int reader(picture *p, char *filename, Pixel color);
+/*
+dans main, je vais donc récupérer et rénvoyer les info dans les fonctions que j'ai déjà pour créer le fichier dans image.pnm
+*/
 #endif
