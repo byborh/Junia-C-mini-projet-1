@@ -617,9 +617,11 @@ int sierpinski_pro_max(picture *p, double x, double y, double dimension, Pixel c
         double demi_taille = dimension / 2.0;
         double offset_h = dimension * sqrt(3.0) / 4.0;
 
-        sierpinski_pro_max(p, x, y, demi_taille, color);
-        sierpinski_pro_max(p, x + demi_taille, y, demi_taille, color);
-        sierpinski_pro_max(p, (x + dimension / 4.0), (y - offset_h), demi_taille, color);
+        Pixel dark_color = assombrir(color, 0.7);
+
+        sierpinski_pro_max(p, x, y, demi_taille, dark_color);
+        sierpinski_pro_max(p, x + demi_taille, y, demi_taille, dark_color);
+        sierpinski_pro_max(p, (x + dimension / 4.0), (y - offset_h), demi_taille, dark_color);
 
         return 1;
     }
@@ -650,3 +652,11 @@ int sierpinski_pro_max(picture *p, double x, double y, double dimension, Pixel c
 
     return 1;
 };
+
+Pixel assombrir(Pixel p, double facteur) {
+    Pixel c;
+    c.r = (unsigned char)p.r * facteur;
+    c.g = (unsigned char)p.g * facteur;
+    c.b = (unsigned char)p.b * facteur;
+    return c;
+}

@@ -393,9 +393,9 @@ int main(int argc, char *argv[]) {
                 
                 for(int j=0; j<h; j++)
                     for(int i=0; i<w; i++)
-                        set_pixel(&p, i, j, white);
+                        set_pixel(&p, i, j, black);
 
-                sierpinski_pro_max(&p, 0.0, 349.0, 400.0, black);
+                sierpinski_pro_max(&p, 0.0, 349.0, 400.0, white);
                 
                 char filename[50];
                 sprintf(filename, IMG_FILE);

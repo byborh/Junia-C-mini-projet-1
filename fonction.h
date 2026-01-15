@@ -19,7 +19,7 @@
 #define TARGET_Y 0.3
 #define ZOOM_ITERATIONS 10
 #define MAX_HEX 255
-#define SEUIL_SIERPINSKI 20.0
+#define SEUIL_SIERPINSKI 2.0
 
 typedef struct 
 {
@@ -94,4 +94,6 @@ int sierpinski(picture *p, double x, double y, double dimension, Pixel color);
 
 int sierpinski_div(picture *p, double x, double y, double dimension, Pixel color);
 int sierpinski_pro_max(picture *p, double x, double y, double dimension, Pixel color);
+
+Pixel assombrir(Pixel p, double facteur);
 #endif
