@@ -613,23 +613,18 @@ int sierpinski_div(picture *p, double x, double y, double dimension, Pixel color
 
 int sierpinski_pro_max(picture *p, double x, double y, double dimension, Pixel color) {
 
-    if(dimension > 300) {
+    if(dimension >= SEUIL_SIERPINSKI) {
         double demi_taille = dimension / 2.0;
+        double offset_h = dimension * sqrt(3.0) / 4.0;
 
-        if(dimension < 300) {
-            sierpinski(p, x, y, demi_taille, color);
-            return 1;
-        }
-
-        sierpinski(p, x, y, demi_taille, color);
-        sierpinski(p, x + demi_taille, y, demi_taille, color);
-        sierpinski(p, (x + dimension / 4.0), (y - dimension * sqrt(3.0)/4.0), demi_taille, color);
+        sierpinski_pro_max(p, x, y, demi_taille, color);
+        sierpinski_pro_max(p, x + demi_taille, y, demi_taille, color);
+        sierpinski_pro_max(p, (x + dimension / 4.0), (y - offset_h), demi_taille, color);
 
         return 1;
     }
 
     double hauteur = dimension * sqrt(3.0) / 2.0;
-
     double top_x = x + dimension / 2.0;
     double top_y = y - hauteur;
 

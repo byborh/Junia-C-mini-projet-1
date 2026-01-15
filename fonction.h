@@ -19,6 +19,7 @@
 #define TARGET_Y 0.3
 #define ZOOM_ITERATIONS 10
 #define MAX_HEX 255
+#define SEUIL_SIERPINSKI 20.0
 
 typedef struct 
 {

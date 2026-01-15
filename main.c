@@ -321,7 +321,7 @@ int main(int argc, char *argv[]) {
 
                 draw_line(&p, 0, 0, 9, 9, white);
                 draw_line(&p, 2, 2, 7, 7, red);
-                draw_line(&p, 2, 7, 7, 2, blue);
+                draw_line(&p, 2, 3, 7, 2, blue);
                 draw_line(&p, 1, 2, 1, 7, green);
                 draw_line(&p, 8, 2, 8, 7, green);
                 draw_line(&p, 2, 1, 7, 1, magenta);
@@ -382,25 +382,28 @@ int main(int argc, char *argv[]) {
             }
 
             case 13: {
-                printf("\nTriangle Scanline à 3 Pro Max !\n");
-
-                int w = 500;
-                int h = 1500;
-
+                printf("\nTest TP3 : Sierpinski Récursif (Seuil = %.1f)...\n", SEUIL_SIERPINSKI);
+                
+                int w = 400;
+                int h = 350;
                 picture p = new_pic(w, h);
-
+                
                 Pixel white = {255, 255, 255};
-                Pixel blue = {0, 0, 255};
-                for(int i = 0; i < h; i++)
-                    for(int j = 0; j < h; j++)
-                        set_pixel(&p, j, i, white);
+                Pixel black = {0, 0, 0};
+                
+                for(int j=0; j<h; j++)
+                    for(int i=0; i<w; i++)
+                        set_pixel(&p, i, j, white);
 
-                sierpinski_pro_max(&p, 0.0, 2000.0, 1500.0, blue);
-
-                save_pic(&p, IMG_FILE);
+                sierpinski_pro_max(&p, 0.0, 349.0, 400.0, black);
+                
+                char filename[50];
+                sprintf(filename, IMG_FILE);
+                save_pic(&p, filename);
                 clean_pic(&p);
                 
-                printf("\nFichier %s est créé !\n", IMG_FILE);
+                printf("Fichier '%s' créé.\n", filename);
+                printf("Changez le #define SEUIL_SIERPINSKI dans fonction.h pour voir l'évolution !\n");
                 break;
             }
 
