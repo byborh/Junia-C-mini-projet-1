@@ -40,9 +40,10 @@ int main(int argc, char *argv[]) {
         printf("│ 10 - Dessiner les lignes             │\n");
         printf("| 11 - Triangle de base (Scanline)     |\n");
         printf("| 12 - Triangle Scanline à 3           |\n");
+        printf("| 13 - Triangle Scanline à 3 Pro Max   |\n");
         printf("│ 99 - Quitter                         │\n");
         printf("└──────────────────────────────────────┘\n");
-        printf("Choisissez une option entre 0 et 11 : ");
+        printf("Choisissez une option entre 0 et 13 : ");
         
         if (scanf("%d", &choice) != 1) {
             printf("\nErreur de saisie !\n");
@@ -372,6 +373,29 @@ int main(int argc, char *argv[]) {
                         set_pixel(&p, j, i, white);
 
                 sierpinski_div(&p, 0.0, 349.0, 400.0, blue);
+
+                save_pic(&p, IMG_FILE);
+                clean_pic(&p);
+                
+                printf("\nFichier %s est créé !\n", IMG_FILE);
+                break;
+            }
+
+            case 13: {
+                printf("\nTriangle Scanline à 3 Pro Max !\n");
+
+                int w = 500;
+                int h = 1500;
+
+                picture p = new_pic(w, h);
+
+                Pixel white = {255, 255, 255};
+                Pixel blue = {0, 0, 255};
+                for(int i = 0; i < h; i++)
+                    for(int j = 0; j < h; j++)
+                        set_pixel(&p, j, i, white);
+
+                sierpinski_pro_max(&p, 0.0, 2000.0, 1500.0, blue);
 
                 save_pic(&p, IMG_FILE);
                 clean_pic(&p);
