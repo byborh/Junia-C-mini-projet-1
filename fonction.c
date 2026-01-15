@@ -655,8 +655,8 @@ int sierpinski_pro_max(picture *p, double x, double y, double dimension, Pixel c
 
 Pixel assombrir(Pixel p, double facteur) {
     Pixel c;
-    c.r = (unsigned char)p.r * facteur;
-    c.g = (unsigned char)p.g * facteur;
-    c.b = (unsigned char)p.b * facteur;
+    c.r = (unsigned char)(p.r * facteur);
+    c.g = (unsigned char)(p.g * facteur);
+    c.b = (unsigned char)(p.b * facteur);
     return c;
 }
