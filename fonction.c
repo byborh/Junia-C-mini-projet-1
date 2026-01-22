@@ -682,3 +682,8 @@ int reader(picture *p, char *filename, Pixel color) {
 
     return 1;    
 }
+
+double read_vector_file(char *filename) {
+    FILE *f = fopen(filename, "r");
+    
+}
