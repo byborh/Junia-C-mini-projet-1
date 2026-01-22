@@ -10,6 +10,7 @@
 #define RAYON 100
 #define OPACITY 255
 #define IMG_FILE "image.ppm"
+#define FILE_TO_READ "kang.txt"
 #define ZERO 0
 #define X1 -2.0
 #define Y1 1.0

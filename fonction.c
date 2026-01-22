@@ -669,7 +669,16 @@ int reader(picture *p, char *filename, Pixel color) {
         return 0;
     }
 
-    
+    double x1, x2, y1, y2;
+    int line_count = 0;
 
-    // on transforme ces données en image .ppm
+    while(fscanf(f, "%lf %lf %lf %lf", &x1, &x2, &y1, &y2) == 4) {
+        draw_line(p, x1, x2, y1, y2, color);
+        line_count++;
+    }
+
+    fclose(f);
+    printf("%d segments ont été tracés depuis %s\n", line_count, filename);
+
+    return 1;    
 }
