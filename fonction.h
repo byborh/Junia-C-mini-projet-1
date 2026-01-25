@@ -66,10 +66,10 @@ typedef struct {
 } picture;
 
 typedef struct {
-    int x1;
-    int x2;
-    int y1;
-    int y2;
+    double x1;
+    double x2;
+    double y1;
+    double y2;
     struct vector *next;
 } vector;
 
@@ -107,5 +107,6 @@ int sierpinski_pro_max(picture *p, double x, double y, double dimension, Pixel c
 Pixel assombrir(Pixel p, double facteur);
 
 int reader(picture *p, char *filename, Pixel color);
-double read_vector_file(char *filename);
+vector* read_vector_file(char *filename);
+void draw_vector(picture *p, vector *v, Pixel color);
 #endif

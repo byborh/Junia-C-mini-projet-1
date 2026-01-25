@@ -42,9 +42,10 @@ int main(int argc, char *argv[]) {
         printf("| 12 - Triangle Scanline à 3           |\n");
         printf("| 13 - Triangle Scanline à 3 Pro Max   |\n");
         printf("| 14 - Chargement d'image vectorielle  |\n");
+        printf("| 15 - Image vectorielle mémorisation  |\n");
         printf("│ 99 - Quitter                         │\n");
         printf("└──────────────────────────────────────┘\n");
-        printf("Choisissez une option entre 0 et 14 : ");
+        printf("Choisissez une option entre 0 et 15 : ");
         
         if (scanf("%d", &choice) != 1) {
             printf("\nErreur de saisie !\n");
@@ -273,7 +274,7 @@ int main(int argc, char *argv[]) {
             }
 
             case 9: {
-                printf("\n--- Test Structure Picture ---\n");
+                printf("\n Test Structure Picture \n");
                 
                 int w = 10;
                 int h = 10;
@@ -409,9 +410,8 @@ int main(int argc, char *argv[]) {
             }
 
             case 14: {
-                printf("\n--- TP4 : Chargement d'image vectorielle (cat.txt) ---\n");
+                printf("\nTP4 : Chargement d'image vectorielle (cat.txt)\n");
 
-                // creation d'image
                 int size = 100;
                 picture p = new_pic(size, size);
                 Pixel white = {255, 255, 255};
@@ -424,6 +424,33 @@ int main(int argc, char *argv[]) {
                 }
 
                 if(reader(&p, FILE_TO_READ, black)) {
+                    save_pic(&p, IMG_FILE);
+                }
+
+                clean_pic(&p);
+                break;
+            }
+
+            case 15: {
+                printf("\n TP4 : Mémorisation en structure chaînée \n");
+
+                int size = 100;
+                picture p = new_pic(size, size);
+                Pixel white = {255, 255, 255};
+                Pixel black = {0, 0, 0};
+
+                for(int i=0; i<size; i++) {
+                    for(int j=0; j<size; j++) {
+                        set_pixel(&p, j, i, white);
+                    }
+                }
+
+                vector *ma_liste = read_vector_file(FILE_TO_READ);
+
+                if(ma_liste == NULL) {
+                    printf("Echec de la lecture.\n");
+                } else {
+                    draw_vector(&p, ma_liste, black);
                     save_pic(&p, IMG_FILE);
                 }
 

@@ -683,7 +683,43 @@ int reader(picture *p, char *filename, Pixel color) {
     return 1;    
 }
 
-double read_vector_file(char *filename) {
+vector* read_vector_file(char *filename) {
     FILE *f = fopen(filename, "r");
-    
+    if(f == NULL) {
+        printf("Erreur : impossible d'ouvrir le fichier %s\n", filename);
+        return NULL;
+    }
+
+    vector *head = NULL;
+    vector *new_element = NULL;
+    double x1, x2, y1, y2;
+    int count = 0;
+
+    while(fscanf(f, "%lf %lf %lf %lf", &x1, &x2, &y1, &y2) == 4) {
+        new_element = malloc(sizeof(vector));
+        
+        if(new_element == NULL) break;
+
+        new_element->x1 = x1;
+        new_element->x2 = x2;
+        new_element->y1 = y1;
+        new_element->y2 = y2;
+
+        new_element->next = head;
+        head = new_element;
+
+        count++;
+    }
+
+    fclose(f);
+    printf("%d segments chargés en mémoire depuis %s\n", count, filename);
+
+    return head;
+}
+
+void draw_vector(picture *p, vector *v, Pixel color) {
+    while(v != NULL) {
+        draw_line(p, (int)v->x1, (int)v->x2, (int)v->y1, (int)v->y2, color);
+        v = v->next;
+    }
 }
