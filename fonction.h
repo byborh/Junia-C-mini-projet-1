@@ -109,4 +109,5 @@ Pixel assombrir(Pixel p, double facteur);
 int reader(picture *p, char *filename, Pixel color);
 vector* read_vector_file(char *filename);
 void draw_vector(picture *p, vector *v, Pixel color);
+void scale_vector(vector *v, double scale);
 #endif

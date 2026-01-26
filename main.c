@@ -43,9 +43,10 @@ int main(int argc, char *argv[]) {
         printf("| 13 - Triangle Scanline à 3 Pro Max   |\n");
         printf("| 14 - Chargement d'image vectorielle  |\n");
         printf("| 15 - Image vectorielle mémorisation  |\n");
+        printf("| 16 - Image vectorielle mais + grand  |\n");
         printf("│ 99 - Quitter                         │\n");
         printf("└──────────────────────────────────────┘\n");
-        printf("Choisissez une option entre 0 et 15 : ");
+        printf("Choisissez une option entre 0 et 16 : ");
         
         if (scanf("%d", &choice) != 1) {
             printf("\nErreur de saisie !\n");
@@ -230,7 +231,7 @@ int main(int argc, char *argv[]) {
             }
 
             case 8: {
-                printf("\n=== LANCEMENT MULTITÂCHE ===\n");
+                printf("\n LANCEMENT MULTITÂCHE \n");
                 printf("On va générer 40 images au total, réparties sur 4 processus.\n");
                 
                 // Paramètres de la cible (Vallée des hippocampes)
@@ -450,6 +451,34 @@ int main(int argc, char *argv[]) {
                 if(ma_liste == NULL) {
                     printf("Echec de la lecture.\n");
                 } else {
+                    draw_vector(&p, ma_liste, black);
+                    save_pic(&p, IMG_FILE);
+                }
+
+                clean_pic(&p);
+                break;
+            }
+
+            case 16: {
+                printf("\n TP4 : Mémorisation en structure chaînée mais plus grand \n");
+
+                int size = 100;
+                picture p = new_pic(size, size);
+                Pixel white = {255, 255, 255};
+                Pixel black = {0, 0, 0};
+
+                for(int i=0; i<size; i++) {
+                    for(int j=0; j<size; j++) {
+                        set_pixel(&p, j, i, white);
+                    }
+                }
+
+                vector *ma_liste = read_vector_file(FILE_TO_READ);
+
+                if(ma_liste == NULL) {
+                    printf("Echec de la lecture.\n");
+                } else {
+                    scale_vector(ma_liste);
                     draw_vector(&p, ma_liste, black);
                     save_pic(&p, IMG_FILE);
                 }

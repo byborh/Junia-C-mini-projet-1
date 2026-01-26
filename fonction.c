@@ -723,3 +723,10 @@ void draw_vector(picture *p, vector *v, Pixel color) {
         v = v->next;
     }
 }
+
+void scale_vector(vector *v, double scale) {
+    v->x1 = v->x1 * scale;
+    v->x2 = v->x2 * scale;
+    v->y1 = v->y1 * scale;
+    v->y2 = v->y2 * scale;
+}
