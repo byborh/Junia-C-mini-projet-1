@@ -21,15 +21,28 @@ int main() {
 
     
     // Bubble sort
+    // printf("Sort by insertion: \n");
+    // for(int i=0; i<n-1; i++) {
+    //     for(int j=0; j<n-i-1; j++) {
+    //         if(tab[j] > tab[j+1]) {
+    //             int tmp = tab[j];
+    //             tab[j] = tab[j+1];
+    //             tab[j+1] = tmp;
+    //         }
+    //     }
+    // }
+
+    // Insertion sort
     printf("Sort by insertion: \n");
-    for(int i=0; i<n-1; i++) {
-        for(int j=0; j<n-i-1; j++) {
-            if(tab[j] > tab[j+1]) {
-                int tmp = tab[j];
-                tab[j] = tab[j+1];
-                tab[j+1] = tmp;
-            }
+    for(int i=1; i < n; i++) {
+        int key = tab[i];
+        int j=i-1;
+
+        while(j>=0 && tab[j] > key) {
+            tab[j+1]=tab[j];
+            j=j-1;
         }
+        tab[j+1] = key;
     }
 
     printf("Tableau trié: ");

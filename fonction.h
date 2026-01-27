@@ -29,6 +29,9 @@ typedef struct
     unsigned int b;
 } Pixel;
 
+extern Pixel white;
+extern Pixel black;
+
 typedef struct
 {
     char signature[3];
@@ -110,4 +113,6 @@ int reader(picture *p, char *filename, Pixel color);
 vector* read_vector_file(char *filename);
 void draw_vector(picture *p, vector *v, Pixel color);
 void scale_vector(vector *v, double scale);
+void flip_vector(vector *v);
+void shift_vector(vector *v, double shift_x, double shift_y);
 #endif

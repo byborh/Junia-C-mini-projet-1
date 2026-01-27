@@ -725,8 +725,34 @@ void draw_vector(picture *p, vector *v, Pixel color) {
 }
 
 void scale_vector(vector *v, double scale) {
-    v->x1 = v->x1 * scale;
-    v->x2 = v->x2 * scale;
-    v->y1 = v->y1 * scale;
-    v->y2 = v->y2 * scale;
+    while(v != NULL) {
+        v->x1 = v->x1 * scale;
+        v->x2 = v->x2 * scale;
+        v->y1 = v->y1 * scale;
+        v->y2 = v->y2 * scale;
+
+        v=v->next;
+    }
+}
+
+void flip_vector(vector *v) {
+    while(v!=NULL) {
+        v->x1=v->x1*(-1);
+        v->x2=v->x2*(-1);
+        v->x1=v->x1*(-1);
+        v->y2=v->y2*(-1);
+
+        v=v->next;
+    }
+}
+
+void shift_vector(vector *v, double shift_x, double shift_y) {
+    while(v!=NULL) {
+        v->x1=v->x1+shift_x;
+        v->x2=v->x2+shift_x;
+        v->y1=v->y1+shift_x;
+        v->y2=v->y2+shift_x;
+
+        v=v->next;
+    }
 }

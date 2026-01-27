@@ -4,6 +4,9 @@
 #include <string.h>
 #include <math.h>
 
+Pixel white = {255, 255, 255};
+Pixel black = {0, 0, 0};
+
 int main(int argc, char *argv[]) {
     if (argc >= 6) {
         double x = atof(argv[1]);
@@ -44,9 +47,10 @@ int main(int argc, char *argv[]) {
         printf("| 14 - Chargement d'image vectorielle  |\n");
         printf("| 15 - Image vectorielle mémorisation  |\n");
         printf("| 16 - Image vectorielle mais + grand  |\n");
+        printf("| 17 - Chat Miroir                     |\n");
         printf("│ 99 - Quitter                         │\n");
         printf("└──────────────────────────────────────┘\n");
-        printf("Choisissez une option entre 0 et 16 : ");
+        printf("Choisissez une option entre 0 et 17 : ");
         
         if (scanf("%d", &choice) != 1) {
             printf("\nErreur de saisie !\n");
@@ -284,7 +288,6 @@ int main(int argc, char *argv[]) {
                 picture p = new_pic(w, h);
                 
                 // Définition des couleurs
-                Pixel black = {0, 0, 0};
                 Pixel red   = {255, 0, 0};
 
                 // Initialisation tout en NOIR
@@ -316,7 +319,6 @@ int main(int argc, char *argv[]) {
                 
                 picture p = new_pic(10, 10);
                 
-                Pixel white = {255, 255, 255};
                 Pixel red = {255, 0, 0};
                 Pixel blue = {0, 0, 255};
                 Pixel green = {0, 255, 0};
@@ -346,7 +348,6 @@ int main(int argc, char *argv[]) {
 
                 picture p = new_pic(w, h);
 
-                Pixel white = {255, 255, 255};
                 Pixel blue = {0, 0, 255};
                 for(int i = 0; i < h; i++)
                     for(int j = 0; j < h; j++)
@@ -369,7 +370,6 @@ int main(int argc, char *argv[]) {
 
                 picture p = new_pic(w, h);
 
-                Pixel white = {255, 255, 255};
                 Pixel blue = {0, 0, 255};
                 for(int i = 0; i < h; i++)
                     for(int j = 0; j < h; j++)
@@ -391,8 +391,6 @@ int main(int argc, char *argv[]) {
                 int h = 350;
                 picture p = new_pic(w, h);
                 
-                Pixel white = {255, 255, 255};
-                Pixel black = {0, 0, 0};
                 
                 for(int j=0; j<h; j++)
                     for(int i=0; i<w; i++)
@@ -415,8 +413,6 @@ int main(int argc, char *argv[]) {
 
                 int size = 100;
                 picture p = new_pic(size, size);
-                Pixel white = {255, 255, 255};
-                Pixel black = {0, 0, 0};
                 
                 for(int i=0; i<size; i++) {
                     for(int j=0; j<size; j++) {
@@ -437,8 +433,6 @@ int main(int argc, char *argv[]) {
 
                 int size = 100;
                 picture p = new_pic(size, size);
-                Pixel white = {255, 255, 255};
-                Pixel black = {0, 0, 0};
 
                 for(int i=0; i<size; i++) {
                     for(int j=0; j<size; j++) {
@@ -464,8 +458,6 @@ int main(int argc, char *argv[]) {
 
                 int size = 100;
                 picture p = new_pic(size, size);
-                Pixel white = {255, 255, 255};
-                Pixel black = {0, 0, 0};
 
                 for(int i=0; i<size; i++) {
                     for(int j=0; j<size; j++) {
@@ -478,12 +470,53 @@ int main(int argc, char *argv[]) {
                 if(ma_liste == NULL) {
                     printf("Echec de la lecture.\n");
                 } else {
-                    scale_vector(ma_liste);
+                    scale_vector(ma_liste, 0.5);
                     draw_vector(&p, ma_liste, black);
                     save_pic(&p, IMG_FILE);
                 }
 
                 clean_pic(&p);
+                break;
+            }
+
+            case 17: {
+                printf("\n--- TP4 : Transformations (Miroir et Échelle) ---\n");
+
+                int size = 420;
+                picture p = new_pic(size, size);
+
+                for(int i=0; i<size; i++) {
+                    for(int j=0; j<size; j++) {
+                        set_pixel(&p, j, i, white);
+                    }
+                }
+
+                vector *chat = read_vector_file("cat.txt");
+
+                if (chat != NULL) {
+                    scale_vector(chat, 0.5);
+
+                    // --- PREMIER CHAT (Gauche) ---
+                    // On le place un peu à gauche (disons x=100, y=200)
+                    // Note : cat.txt commence souvent vers (0,0), il faut le centrer
+                    shift_vector(chat, 1.0, 1.0); 
+                    draw_vector(&p, chat, black); 
+
+                    // --- DEUXIEME CHAT (Droite, face au premier) ---
+                    // Stratégie :
+                    // 1. On applique le miroir
+                    flip_vector(chat); 
+                    
+                    // ATTENTION : Le flip inverse les X. Si le chat était à x=100, il est maintenant à x=-100 !
+                    // Il faut le ramener dans l'écran, vers la droite.
+                    // On veut qu'il soit à x=300 (par exemple).
+                    // De -100 à 300, il faut ajouter +400.
+                    shift_vector(chat, 200.0, 0.0);
+                    
+                    draw_vector(&p, chat, black);
+                }
+                
+                save_pic(&p, IMG_FILE);
                 break;
             }
 
