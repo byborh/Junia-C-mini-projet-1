@@ -48,9 +48,10 @@ int main(int argc, char *argv[]) {
         printf("| 15 - Image vectorielle mémorisation  |\n");
         printf("| 16 - Image vectorielle mais + grand  |\n");
         printf("| 17 - Chat Miroir                     |\n");
+        printf("| 18 - Kangourous métamorphose         |\n");
         printf("│ 99 - Quitter                         │\n");
         printf("└──────────────────────────────────────┘\n");
-        printf("Choisissez une option entre 0 et 17 : ");
+        printf("Choisissez une option entre 0 et 18 : ");
         
         if (scanf("%d", &choice) != 1) {
             printf("\nErreur de saisie !\n");
@@ -496,19 +497,11 @@ int main(int argc, char *argv[]) {
                 if (chat != NULL) {
                     scale_vector(chat, 0.5);
 
-                    // --- PREMIER CHAT (Gauche) ---
-                    // On le place un peu à gauche (disons x=100, y=200)
-                    // Note : cat.txt commence souvent vers (0,0), il faut le centrer
                     shift_vector(chat, 1.0, 1.0); 
                     draw_vector(&p, chat, black); 
 
-                    // --- DEUXIEME CHAT (Droite, face au premier) ---
-                    // Stratégie :
-                    // 1. On applique le miroir
                     flip_vector(chat); 
                     
-                    // ATTENTION : Le flip inverse les X. Si le chat était à x=100, il est maintenant à x=-100 !
-                    // Il faut le ramener dans l'écran, vers la droite.
                     // On veut qu'il soit à x=300 (par exemple).
                     // De -100 à 300, il faut ajouter +400.
                     shift_vector(chat, 200.0, 0.0);
@@ -520,6 +513,71 @@ int main(int argc, char *argv[]) {
                 break;
             }
 
+            case 18: {
+                printf("\n--- TP4 : Le Pavage Kangourou ---\n");
+
+                int size = 500;
+                picture p = new_pic(size, size);
+                Pixel red   = {255, 0, 0};
+                Pixel blue  = {0, 0, 255};
+
+                for(int i=0; i<size; i++) {
+                    for(int j=0; j<size; j++) {
+                        set_pixel(&p, j, i, white);
+                    }
+                }
+
+                vector *kang = read_vector_file(FILE_TO_READ);
+
+                if (kang == NULL) {
+                    printf("Erreur de lecture de kang.txt\n");
+                } else {
+
+                    
+                    printf("Dessin de la ligne 1...\n");
+                    for(int i = 0; i < 4; i++) {
+                        draw_vector(&p, kang, black);
+                        
+                        if(i < 3) {
+                            shift_vector(kang, 100.0, 0.0);
+                        }
+                    }
+                    shift_vector(kang, -300.0, 0.0); 
+                    
+                    flip_vector(kang);
+
+                    shift_vector(kang, 50.0, 100.0);
+
+                    printf("Dessin de la ligne intermédiaire...\n");
+                    for(int i = 0; i < 3; i++) {
+                        draw_vector(&p, kang, red);
+                        
+                        if(i < 2) {
+                            shift_vector(kang, 100.0, 0.0);
+                        }
+                    }
+
+                    shift_vector(kang, -250.0, 0.0);
+
+                    flip_vector(kang);
+
+                    shift_vector(kang, 0.0, 100.0);
+
+                    printf("Dessin de la ligne 2...\n");
+                    for(int i = 0; i < 4; i++) {
+                        draw_vector(&p, kang, blue);
+                        
+                        if(i < 3) {
+                            shift_vector(kang, 100.0, 0.0);
+                        }
+                    }
+
+                    save_pic(&p, IMG_FILE);
+                }
+
+                clean_pic(&p);
+                break;
+            }
             case 99: {
                 printf("\nAu revoir !\n");
                 loop = 0;
